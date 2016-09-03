@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="85dp"
+    android:background="@drawable/customshape"
+    android:orientation="horizontal"
+    android:padding="5dip" >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_weight="7"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/limb"
+            android:layout_width="fill_parent"
+            android:layout_height="65dp"
+            android:text="this is a test reminder"
+            android:textColor="#040404"
+            android:typeface="monospace"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/created_date"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:textColor="#40ff00"
+            android:textSize="11dp"
+            android:layout_below="@+id/limb"
+            android:text="created: 2016-01-01"/>
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:id="@+id/space_before_due_date"
+            android:layout_toRightOf="@+id/created_date"
+            android:layout_below="@+id/limb"/>
+
+        <TextView
+            android:id="@+id/due_date"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:textColor="#ff0000"
+            android:textSize="11dip"
+            android:layout_toRightOf="@id/space_before_due_date"
+            android:layout_below="@+id/limb"
+            android:text="due: 2016-01-01"/>
+
+    </RelativeLayout>
+
+    <CheckBox
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_vertical"
+        android:scaleX="1.50"
+        android:scaleY="1.50"
+        android:id="@+id/row_checkbox" />
+
+</LinearLayout>

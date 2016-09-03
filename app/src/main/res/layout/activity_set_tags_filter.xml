@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.krux.activity.main.SetTagsFilterActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Tag Filter"
+        android:id="@+id/set_tags_filter_button"
+        android:layout_below="@+id/tags_text_box"
+        android:layout_alignLeft="@+id/tags_text_box"
+        android:layout_alignStart="@+id/tags_text_box"
+        android:layout_alignRight="@+id/tags_text_box"
+        android:layout_alignEnd="@+id/tags_text_box" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tags_text_box"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
