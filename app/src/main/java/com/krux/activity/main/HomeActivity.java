@@ -17,7 +17,7 @@ public class HomeActivity extends FragmentActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.activity_main);
+        super.setContentView(R.layout.fragment_query);
         this.initialisePaging();
     }
 

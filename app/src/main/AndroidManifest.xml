@@ -9,8 +9,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
+        android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
         <activity android:name="com.krux.activity.preLogin.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,22 +17,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name="com.krux.activity.preLogin.RegisterActivity">
             android:label="@string/app_name"
         </activity>
-
         <activity
             android:name="com.krux.activity.main.HomeActivity"
             android:label="ViewPagerFragmentActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name="com.krux.activity.main.DetailedLimbActivity"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
         <activity
             android:name="com.krux.activity.main.SetTagsFilterActivity"
             android:theme="@android:style/Theme.Dialog" />
-
-        <activity android:name="com.krux.activity.main.SetCreatedDateFilterActivity"
-                  android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.krux.activity.main.SetCreatedDateFilterActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.krux.activity.main.SetDueDateFilterActivity"
+            android:theme="@android:style/Theme.Dialog" />
     </application>
 
 </manifest>

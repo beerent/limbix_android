@@ -13,7 +13,7 @@ import com.krux.session.ActiveSession;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-public class SetCreatedDateFilterActivity extends Activity implements View.OnClickListener,
+public class SetDueDateFilterActivity extends Activity implements View.OnClickListener,
         DatePickerDialog.OnDateSetListener{
 
     private int setting_date = -1;
@@ -22,11 +22,11 @@ public class SetCreatedDateFilterActivity extends Activity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_set_created_date_filter);
+        setContentView(R.layout.activity_set_due_date_filter);
 
-        findViewById(R.id.created_before_button).setOnClickListener(this);
-        findViewById(R.id.created_on_button).setOnClickListener(this);
-        findViewById(R.id.created_after_button).setOnClickListener(this);
+        findViewById(R.id.due_before_button).setOnClickListener(this);
+        findViewById(R.id.due_on_button).setOnClickListener(this);
+        findViewById(R.id.due_after_button).setOnClickListener(this);
 
 
         //setDueDateClick
@@ -50,12 +50,12 @@ public class SetCreatedDateFilterActivity extends Activity implements View.OnCli
 
         String date = "" + year + "-" + month + "-" + day;
 
-        if(this.setting_date == R.id.created_before_button){
-            ActiveSession.setBeforeCreatedDate(date);
-        }else if(this.setting_date == R.id.created_on_button){
-            ActiveSession.setOnCreatedDate(date);
-        }else if(this.setting_date == R.id.created_after_button){
-            ActiveSession.setAfterCreatedDate(date);
+        if(this.setting_date == R.id.due_before_button){
+            ActiveSession.setBeforeDueDate(date);
+        }else if(this.setting_date == R.id.due_on_button){
+            ActiveSession.setOnDueDate(date);
+        }else if(this.setting_date == R.id.due_after_button){
+            ActiveSession.setAfterDueDate(date);
         }
 
         LimbsFilterFragment.setStrings();

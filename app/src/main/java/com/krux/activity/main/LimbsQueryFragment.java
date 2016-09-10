@@ -1,6 +1,9 @@
 package com.krux.activity.main;
 
 import java.util.ArrayList;
+
+import android.app.Instrumentation;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -10,8 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.brent.helloworld.R;
 import com.krux.json.JSONBuilder;
@@ -24,16 +28,17 @@ import org.json.simple.JSONObject;
 
 public class LimbsQueryFragment extends Fragment{
 
-    ListView list;
-    LazyAdapter adapter;
+    private ListView list;
+    private LimbListViewAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View view = inflater.inflate(R.layout.activity_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_query, container, false);
         new ClientThread().execute();
+
         return view;
     }
 
@@ -46,9 +51,6 @@ public class LimbsQueryFragment extends Fragment{
             }
         }
     }
-
-
-
 
 
 
@@ -118,11 +120,26 @@ public class LimbsQueryFragment extends Fragment{
                 request_json.put("created_before", ActiveSession.getBeforeCreatedDate());
             if(ActiveSession.getOnCreatedDate() != null)
                 request_json.put("created", ActiveSession.getOnCreatedDate());
-            if(ActiveSession.getBeforeCreatedDate() != null)
+            if(ActiveSession.getAfterCreatedDate() != null)
                 request_json.put("created_after", ActiveSession.getAfterCreatedDate());
 
+            if(ActiveSession.getBeforeDueDate() != null)
+                request_json.put("due_date_before", ActiveSession.getBeforeDueDate());
+            if(ActiveSession.getOnDueDate() != null)
+                request_json.put("due_date", ActiveSession.getOnDueDate());
+            if(ActiveSession.getAfterCreatedDate() != null)
+                request_json.put("due_date_after", ActiveSession.getAfterDueDate());
+
+            if(ActiveSession.getCompleted() !=  null){
+                String completed = "1";
+                if(ActiveSession.getCompleted() == false)
+                    completed = "0";
+
+                request_json.put("complete", completed);
+            }
+
+            request_json.put("deleted", "0");
             return_json.put("request", request_json);
-            System.out.println(return_json.toString());
             return return_json.toString();
         }
 
@@ -132,18 +149,16 @@ public class LimbsQueryFragment extends Fragment{
             System.out.println(limbs_string);
             JSONObject limbs_json = jb.getJSONObject(limbs_string);
 
-            ArrayList<Limb> limbs = getLimbsFromJSON(limbs_json);
+            final ArrayList<Limb> limbs = getLimbsFromJSON(limbs_json);
 
             list=(ListView)getActivity().findViewById(R.id.list);
 
             // Getting adapter by passing xml data ArrayList
-            adapter = new LazyAdapter(getActivity(), limbs);
+            adapter = new LimbListViewAdapter(getActivity(), limbs);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     list.setAdapter(adapter);
-                    list.addHeaderView(new View(getActivity().getApplicationContext()), null, true);
-                    list.addFooterView(new View(getActivity().getApplicationContext()), null, true);
                 }
             });
 
@@ -152,9 +167,34 @@ public class LimbsQueryFragment extends Fragment{
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                    Intent intent = new Intent(getActivity().getApplicationContext(), DetailedLimbActivity.class);
+                    intent.putExtra("limb_text", limbs.get(position).getLimbMessage());
+                    intent.putExtra("limb_id", limbs.get(position).getLimbID());
+                    intent.putExtra("limb_position", position);
+                    startActivityForResult(intent, 1);
                 }
             });
+        }
+
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+            if (resultCode != Activity.RESULT_OK)
+                return;
+
+            if (requestCode == PICK_FROM_FILE) {
+                mImageCaptureUri = data.getData();
+                // mPath = getRealPathFromURI(mImageCaptureUri); //from Gallery
+
+                if (mPath == null)
+                    mPath = mImageCaptureUri.getPath(); // from File Manager
+
+                if (mPath != null)
+                    bitmap = BitmapFactory.decodeFile(mPath);
+            } else {
+                mPath = mImageCaptureUri.getPath();
+                bitmap = BitmapFactory.decodeFile(mPath);
+            }
+            mImageView.setImageBitmap(bitmap);
         }
 
         private ArrayList<Limb> getLimbsFromJSON(JSONObject limbs_json){

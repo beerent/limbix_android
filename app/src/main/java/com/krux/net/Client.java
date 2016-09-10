@@ -12,7 +12,6 @@ public class Client{
     private SocketReader in;
     private SocketWriter out;
     private Socket socket;
-    private String response;
 
     public Client(){
         try {
@@ -24,7 +23,8 @@ public class Client{
     }
 
     private void init() throws IOException{
-        this.socket = new Socket("52.43.105.55", 1313);
+        //this.socket = new Socket("52.43.105.55", 1313);
+        this.socket = new Socket("192.168.1.105", 1313);
         this.in = new SocketReader(this.socket);
         this.out = new SocketWriter(this.socket);
     }
@@ -38,9 +38,19 @@ public class Client{
     }
 
     public String handleTransaction(String s){
+        System.out.println(s);
         receive();
         send(s);
-        return receive();
+        String response = receive();
+        try {
+            out.close();
+            in.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+
     }
 
 }

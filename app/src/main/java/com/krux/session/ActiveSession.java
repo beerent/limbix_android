@@ -24,7 +24,9 @@ public class ActiveSession {
     private static String on_due_date = null;
     private static String after_due_date = null;
 
-    private static boolean completed = false;
+    private static Boolean completed = null;
+
+    private static Boolean refresh_limb_list;
 
     public static boolean isLoggedIn(){
         return ActiveSession.logged_in;
@@ -87,8 +89,6 @@ public class ActiveSession {
         }
     }
 
-    public static void setCompleted(boolean completed){ ActiveSession.completed = completed; }
-
     public static void setFilterUpdated(boolean updated){
         ActiveSession.updated = updated;
     }
@@ -97,29 +97,65 @@ public class ActiveSession {
         return ActiveSession.updated;
     }
 
-    public static String getBeforeCreatedDate() {
-        return ActiveSession.before_created_date;
+    public static String getBeforeCreatedDate() { return ActiveSession.before_created_date; }
+    public static void setBeforeCreatedDate(String date) {
+        ActiveSession.before_created_date = date;
+        ActiveSession.updated = true;
     }
-    public static void setBeforeCreatedDate(String date) {ActiveSession.before_created_date = date;}
 
     public static String getOnCreatedDate() {
         return ActiveSession.on_created_date;
     }
-    public static void setOnCreatedDate(String date) {ActiveSession.on_created_date = date;}
+    public static void setOnCreatedDate(String date) {
+        ActiveSession.on_created_date = date;
+        ActiveSession.updated = true;
+    }
 
     public static String getAfterCreatedDate() {
         return ActiveSession.after_created_date;
     }
-    public static void setAfterCreatedDate(String date) {ActiveSession.after_created_date = date;}
+    public static void setAfterCreatedDate(String date) {
+        ActiveSession.after_created_date = date;
+        ActiveSession.updated = true;
+    }
 
     public static String getBeforeDueDate() {
         return ActiveSession.before_due_date;
     }
-    public static String getOnDueDate() {
-        return ActiveSession.on_due_date;
+    public static void setBeforeDueDate(String date) {
+        ActiveSession.before_due_date = date;
+        ActiveSession.updated = true;
     }
+
+    public static String getOnDueDate() {return ActiveSession.on_due_date;}
+    public static void setOnDueDate(String date) {
+        ActiveSession.on_due_date = date;
+        ActiveSession.updated = true;
+    }
+
     public static String getAfterDueDate() {
         return ActiveSession.after_due_date;
+    }
+    public static void setAfterDueDate(String date) {
+        ActiveSession.after_due_date = date;
+        ActiveSession.updated = true;
+    }
+
+    public static Boolean getCompleted(){
+        return ActiveSession.completed;
+    }
+
+    public static void setCompleted(Boolean completed){
+        ActiveSession.completed = completed;
+        ActiveSession.updated = true;
+    }
+
+    public static boolean refreshLimbList(){
+        return ActiveSession.refresh_limb_list;
+    }
+
+    public static void setRefreshLimbList(Boolean refresh_limb_list){
+        ActiveSession.refresh_limb_list = refresh_limb_list;
     }
 }
 

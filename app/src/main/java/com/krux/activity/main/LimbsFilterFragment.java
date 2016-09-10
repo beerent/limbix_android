@@ -36,8 +36,11 @@ public class LimbsFilterFragment extends Fragment implements View.OnClickListene
         view.findViewById(R.id.cancel_tag_filter_button).setOnClickListener(this);
         view.findViewById(R.id.created_date_filter_button).setOnClickListener(this);
         view.findViewById(R.id.cancel_created_date_filter_button).setOnClickListener(this);
+        view.findViewById(R.id.due_date_filter_button).setOnClickListener(this);
+        view.findViewById(R.id.cancel_due_date_filter_button).setOnClickListener(this);
+        view.findViewById(R.id.completed_filter_button).setOnClickListener(this);
+        view.findViewById(R.id.cancel_completed_filter_button).setOnClickListener(this);
 
-        //(view.findViewById(R.id.cancel_tag_filter_button).setOnClickListener(this);
         return view;
     }
 
@@ -47,14 +50,33 @@ public class LimbsFilterFragment extends Fragment implements View.OnClickListene
             case R.id.tag_filter_button:
                 applyTagFilterClick();
                 break;
+
             case R.id.cancel_tag_filter_button:
                 clearTagFiltersClick();
                 break;
+
             case R.id.created_date_filter_button:
                 applyCreatedDateFilterClick();
                 break;
+
             case R.id.cancel_created_date_filter_button:
                 clearCreatedDateFilterClick();
+                break;
+
+            case R.id.due_date_filter_button:
+                applyDueDateFilterClick();
+                break;
+
+            case R.id.cancel_due_date_filter_button:
+                clearDueDateFilterClick();
+                break;
+
+            case R.id.completed_filter_button:
+                applyCompletedFilterClick();
+                break;
+
+            case R.id.cancel_completed_filter_button:
+                clearCompletedFilterClick();
                 break;
         }
     }
@@ -69,6 +91,8 @@ public class LimbsFilterFragment extends Fragment implements View.OnClickListene
         String on_due_date = ActiveSession.getOnDueDate();
         String before_due_date = ActiveSession.getBeforeDueDate();
         String after_due_date = ActiveSession.getAfterDueDate();
+
+        Boolean completed = ActiveSession.getCompleted();
 
         //TAG FILTER
         if(tag_string != null && tag_string.length() > 0){
@@ -97,12 +121,31 @@ public class LimbsFilterFragment extends Fragment implements View.OnClickListene
 
         //DUE DATE FILTER
         if(on_due_date != null){
-            //set this field as string
+            due_date_filter_message.setText("Due On: " + on_due_date);
         }else if(before_due_date != null || after_due_date != null){
             //check if one or both of the other two fields exist
             //if so, set field(s)
+            if(before_due_date != null && after_due_date != null){
+                due_date_filter_message.setText(("Due Before: " + before_due_date +
+                        " & Due After: " + after_due_date));
+            }else if(before_due_date != null){
+                due_date_filter_message.setText("Due Before: " + before_due_date);
+            }else{
+                due_date_filter_message.setText(("Due After: " + after_due_date));
+            }
         }else{
-            //due date not set
+            due_date_filter_message.setText("Due Date: Not Set");
+        }
+
+        //COMPLETED FILTER
+        if(completed != null){
+            String completed_str = "true";
+            if(!completed)
+                completed_str = "false";
+
+            completed_filter_message.setText("Completed: " + completed_str);
+        }else{
+            completed_filter_message.setText("Completed: Not Set");
         }
     }
 
@@ -120,11 +163,43 @@ public class LimbsFilterFragment extends Fragment implements View.OnClickListene
         Intent intent=new Intent(getActivity().getApplicationContext(), SetCreatedDateFilterActivity.class);
         startActivity(intent);
     }
+
     private void clearCreatedDateFilterClick(){
         ActiveSession.setBeforeCreatedDate(null);
         ActiveSession.setOnCreatedDate(null);
         ActiveSession.setAfterCreatedDate(null);
 
+        setStrings();
+    }
+
+    private void applyDueDateFilterClick(){
+        Intent intent=new Intent(getActivity().getApplicationContext(), SetDueDateFilterActivity.class);
+        startActivity(intent);
+    }
+
+    private void clearDueDateFilterClick(){
+        ActiveSession.setBeforeDueDate(null);
+        ActiveSession.setOnDueDate(null);
+        ActiveSession.setAfterDueDate(null);
+
+        setStrings();
+    }
+
+    private void applyCompletedFilterClick(){
+        Boolean completed = ActiveSession.getCompleted();
+
+        if(completed == null)
+            ActiveSession.setCompleted(true);
+        else if(completed == true)
+            ActiveSession.setCompleted(false);
+        else
+            ActiveSession.setCompleted(null);
+
+        setStrings();
+    }
+
+    private void clearCompletedFilterClick(){
+        ActiveSession.setCompleted(null);
         setStrings();
     }
 }

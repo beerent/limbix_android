@@ -51,4 +51,16 @@
         android:layout_alignRight="@+id/password"
         android:layout_alignEnd="@+id/password" />
 
+    <TextView
+        android:textColor="#40ff00"
+        android:textSize="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="LIMBIX"
+        android:id="@+id/textView"
+        android:layout_above="@+id/username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp" />
+
 </RelativeLayout>

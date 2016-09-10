@@ -73,15 +73,22 @@ public class LimbsAddFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         this.due_year = year;
-        this.due_month = monthOfYear;
+        this.due_month = monthOfYear + 1;
         this.due_day = dayOfMonth;
         updateDisplay();
     }
 
     private void updateDisplay() {
+        String month = "" + due_month;
+        if(month.length() == 1)
+            month = "0" + month;
+
+        String day = "" + due_day;
+        if(day.length() == 1)
+            day = "0" + day;
         due_date_text.setText(new StringBuilder()
                 .append("due date: ")
-                .append(due_year).append("-").append(due_month + 1).append("-").append(due_day));
+                .append(due_year).append("-").append(month).append("-").append(day));
     }
 
     private void submitButtonOnClick(){
