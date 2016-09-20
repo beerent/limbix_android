@@ -4,18 +4,60 @@
     android:layout_height="wrap_content"
     tools:context="com.krux.activity.main.SetTagsFilterActivity">
 
-    <TextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/limb_text_box"
-        android:background="@drawable/detailed_limb_background"
-        android:layout_alignParentTop="true"/>
+        android:background="@drawable/list_item_shape_unselected"
+        android:clickable="true"
+        android:id="@+id/detailed_text_top_layout">
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="fill_parent"
+        />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/detailed_text_layout" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/detailed_limb_text_box"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/detailed_view_created_date"
+                android:textColor="#40ff00"
+                android:layout_below="@+id/detailed_limb_text_box"
+            />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/detailed_view_due_date"
+                android:textColor="#ff0000"
+                android:layout_below="@+id/detailed_view_created_date"
+            />
+        </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/limb_text_box"
+        android:layout_below="@id/detailed_text_top_layout"
         android:id="@+id/button_layout">
 
         <Button

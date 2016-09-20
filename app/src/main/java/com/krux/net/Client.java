@@ -23,8 +23,11 @@ public class Client{
     }
 
     private void init() throws IOException{
-        //this.socket = new Socket("52.43.105.55", 1313);
-        this.socket = new Socket("192.168.1.105", 1313);
+        this.socket = new Socket("52.43.169.37", 1313); // aws
+        //this.socket = new Socket("10.0.2.2", 1313); // local - no network
+        //this.socket = new Socket("192.168.43.37", 1313); // phones wifi
+        //this.socket = new Socket("192.168.1.105", 1313);  // macbook air
+        //this.socket = new Socket("192.168.1.125", 1313);  // macbook pro
         this.in = new SocketReader(this.socket);
         this.out = new SocketWriter(this.socket);
     }
@@ -50,7 +53,6 @@ public class Client{
             e.printStackTrace();
         }
         return response;
-
     }
 
 }

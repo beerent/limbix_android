@@ -29,14 +29,21 @@ import org.json.simple.JSONObject;
 public class LimbListViewAdapter extends BaseAdapter {
 
     private Activity activity;
-    private static ArrayList <Limb> data;
-    private static LayoutInflater inflater = null;
+    private ArrayList <Limb> data;
+    private LayoutInflater inflater = null;
 
     public LimbListViewAdapter(Activity activity, ArrayList<Limb> data) {
         this.activity = activity;
         this.data=data;
 
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public void removeLimb(int position, int limb_id){
+        if(data.get(position).getLimbID() == limb_id) {
+            data.remove(position);
+            this.notifyDataSetChanged();
+        }
     }
 
     public int getCount() {
@@ -81,6 +88,7 @@ public class LimbListViewAdapter extends BaseAdapter {
         });
 
         // Setting all values in listview
+        System.out.println(limb.getLimbMessage() + " " + limb.getDueDate());
         limb_view.setText(limb.getLimbMessage());
         created_date_view.setText("created: " + limb.getCreatedDate());
         if(limb.getDueDate() != null && !limb.getDueDate().equals("null"))
@@ -88,11 +96,6 @@ public class LimbListViewAdapter extends BaseAdapter {
         complete_checkbox.setChecked(limb.isCompleted());
 
         return vi;
-    }
-
-    public void removeLimb(int position){
-        LimbListViewAdapter.data.remove(position);
-        this.notifyDataSetChanged();
     }
 
 

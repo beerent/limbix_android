@@ -13,6 +13,7 @@ public class ActiveSession {
     private static String password = null;
 
     private static boolean updated = false;
+    private static Boolean refresh_limb_list = false;
 
     private static String tags = null;
 
@@ -25,8 +26,6 @@ public class ActiveSession {
     private static String after_due_date = null;
 
     private static Boolean completed = null;
-
-    private static Boolean refresh_limb_list;
 
     public static boolean isLoggedIn(){
         return ActiveSession.logged_in;

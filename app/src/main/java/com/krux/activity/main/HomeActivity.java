@@ -13,11 +13,12 @@ import com.example.brent.helloworld.R;
 
 public class HomeActivity extends FragmentActivity{
     private PagerAdapter mPagerAdapter;
+    private List<Fragment> fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.fragment_query);
+        super.setContentView(R.layout.home_layout);
         this.initialisePaging();
     }
 
@@ -26,14 +27,15 @@ public class HomeActivity extends FragmentActivity{
      */
     private void initialisePaging() {
 
-        List<Fragment> fragments = new Vector<Fragment>();
-        fragments.add(Fragment.instantiate(this, LimbsAddFragment.class.getName()));
+        fragments = new Vector<Fragment>();
+
         fragments.add(Fragment.instantiate(this, LimbsQueryFragment.class.getName()));
         fragments.add(Fragment.instantiate(this, LimbsFilterFragment.class.getName()));
+
         this.mPagerAdapter  = new PagerAdapter(super.getSupportFragmentManager(), fragments);
         //
         ViewPager pager = (ViewPager)super.findViewById(R.id.viewpager);
         pager.setAdapter(this.mPagerAdapter);
-        pager.setCurrentItem(1);
+        pager.setCurrentItem(0);
     }
 }

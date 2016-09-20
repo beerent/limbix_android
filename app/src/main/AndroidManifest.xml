@@ -25,10 +25,6 @@
             android:label="ViewPagerFragmentActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.krux.activity.main.DetailedLimbActivity"
-            android:theme="@android:style/Theme.Dialog">
-        </activity>
-        <activity
             android:name="com.krux.activity.main.SetTagsFilterActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity
@@ -36,6 +32,12 @@
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name="com.krux.activity.main.SetDueDateFilterActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.krux.activity.main.LimbsQueryFragment$DetailedLimbActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.krux.activity.main.AddLimbActivity"
             android:theme="@android:style/Theme.Dialog" />
     </application>
 

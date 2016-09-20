@@ -1,14 +1,15 @@
 package com.krux.activity.main;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,10 +23,14 @@ import org.json.simple.JSONObject;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-public class LimbsAddFragment extends Fragment implements View.OnClickListener,
+public class AddLimbActivity extends Activity implements View.OnClickListener,
         DatePickerDialog.OnDateSetListener{
+    private boolean limb_added;
     private Button submit_button;
-    private Button set_due_date_button;
+    private Button clear_due_date;
+    private Button cancel_add_limb_button;
+
+    private CheckBox create_another;
 
     private EditText due_date_text;
     private EditText add_limb_text;
@@ -42,19 +47,28 @@ public class LimbsAddFragment extends Fragment implements View.OnClickListener,
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_add_limb);
+        this.setFinishOnTouchOutside(false);
 
-        submit_button = (Button) view.findViewById(R.id.add_limb_button);
+        submit_button = (Button) findViewById(R.id.add_limb_button);
         submit_button.setOnClickListener(this);
 
-        set_due_date_button = (Button) view.findViewById(R.id.set_due_date_button);
-        set_due_date_button.setOnClickListener(this);
+        clear_due_date = (Button) findViewById(R.id.clear_due_date_button);
+        clear_due_date.setOnClickListener(this);
 
-        due_date_text = (EditText) view.findViewById(R.id.due_date_text);
+        cancel_add_limb_button = (Button) findViewById(R.id.cancel_add_limb_button);
+        cancel_add_limb_button.setOnClickListener(this);
+
+        create_another = (CheckBox) findViewById(R.id.create_another);
+
+        due_date_text = (EditText) findViewById(R.id.due_date_text);
         due_date_text.setKeyListener(null);
-        return view;
+        due_date_text.setOnClickListener(this);
+
+        this.limb_added = false;
     }
 
     @Override
@@ -64,8 +78,14 @@ public class LimbsAddFragment extends Fragment implements View.OnClickListener,
             case R.id.add_limb_button:
                 submitButtonOnClick();
                 break;
-            case R.id.set_due_date_button:
+            case R.id.due_date_text:
                 setDueDateClick();
+                break;
+            case R.id.clear_due_date_button:
+                clearDueDateClick();
+                break;
+            case R.id.cancel_add_limb_button:
+                closeAddLimbWindow();
                 break;
         }
     }
@@ -92,18 +112,37 @@ public class LimbsAddFragment extends Fragment implements View.OnClickListener,
     }
 
     private void submitButtonOnClick(){
-        add_limb_text = (EditText) getActivity().findViewById(R.id.add_limb_text);
+        add_limb_text = (EditText) findViewById(R.id.add_limb_text);
         String due_date = "" + this.due_year + "-" + this.due_month + "-" + this.due_day;
         new ClientThread().execute(add_limb_text.getText().toString(), due_date);
+        try  {
+            InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+
+        }
     }
 
     private void setDueDateClick(){
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
 
-        DatePickerDialog dialog = new DatePickerDialog(getContext(),
+        DatePickerDialog dialog = new DatePickerDialog(this,
                 android.R.style.Theme_Holo_Dialog_MinWidth, this, calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         dialog.show();
+    }
+
+    private void clearDueDateClick(){
+        due_date_text.setText("");
+        due_year = -1;
+        due_month = -1;
+        due_day = -1;
+    }
+
+    private void closeAddLimbWindow(){
+        if(this.limb_added)
+            LimbsQueryFragment.refresh();
+        finish();
     }
 
 
@@ -122,7 +161,7 @@ public class LimbsAddFragment extends Fragment implements View.OnClickListener,
 
         @Override
         protected void onPreExecute() {
-            progDailog = new ProgressDialog(getActivity());
+            progDailog = new ProgressDialog(AddLimbActivity.this);
             progDailog.setMessage("Loading...");
             progDailog.setIndeterminate(false);
             progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -139,24 +178,32 @@ public class LimbsAddFragment extends Fragment implements View.OnClickListener,
             response_json = json_builder.getJSONObject(response);
             response_json = (JSONObject) response_json.get("response");
             Long op = (Long) response_json.get("op");
-            return op == 0;
+            if(op == 0){
+
+                return true;
+            }
+            return false;
         }
 
         protected void onPostExecute(Boolean b) {
             if (progDailog.isShowing())
                 progDailog.dismiss();
+
             if(b) {
-                Toast.makeText(getActivity(), (String) response_json.get("success"),
+                ActiveSession.setRefreshLimbList(true);
+                Toast.makeText(AddLimbActivity.this, (String) response_json.get("success"),
                         Toast.LENGTH_LONG).show();
                 add_limb_text.setText("");
-                due_date_text.setText("");
-                due_year = -1;
-                due_month = -1;
-                due_day = -1;
+                clearDueDateClick();
+
             }else{
-                Toast.makeText(getActivity(), (String) response_json.get("error"),
+                Toast.makeText(AddLimbActivity.this, (String) response_json.get("error"),
                         Toast.LENGTH_LONG).show();
             }
+
+            limb_added = true;
+            if(!create_another.isChecked())
+               closeAddLimbWindow();
         }
 
         private String getRequestJSON(String reminder, String due_date){
