@@ -63,4 +63,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/developer_server_key"
+        android:layout_below="@+id/login_button"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginTop="51dp"
+        android:layout_alignRight="@+id/textView"
+        android:layout_alignEnd="@+id/textView"
+        android:textSize="15dp"
+        android:hint="developer server key"/>
+
 </RelativeLayout>

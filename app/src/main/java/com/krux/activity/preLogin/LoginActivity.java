@@ -20,7 +20,7 @@ import org.json.simple.JSONObject;
 
 public class LoginActivity extends Activity {
     private Button login_button;
-    private EditText username, password;
+    private EditText username, password, developer_key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +32,14 @@ public class LoginActivity extends Activity {
         login_button = (Button) findViewById(R.id.login_button);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
+        developer_key = (EditText) findViewById(R.id.developer_server_key);
 
         String username_value = username.getText().toString();
         String password_value = password.getText().toString();
+
+        String key = developer_key.getText().toString();
+        if(key != null && !key.equals(""))
+            ActiveSession.setDeveloperServerKey(key);
 
         new ClientThread().execute(username_value, password_value);
 

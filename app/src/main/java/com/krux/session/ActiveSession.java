@@ -27,6 +27,8 @@ public class ActiveSession {
     private static String on_due_date = null;
     private static String after_due_date = null;
 
+    private static String developer_server_key = null;
+
     public static long start_rx = TrafficStats.getTotalRxBytes();
     public static long start_tx = TrafficStats.getTotalTxBytes();
 
@@ -147,6 +149,14 @@ public class ActiveSession {
 
     public static void setRefreshLimbList(Boolean refresh_limb_list){
         ActiveSession.refresh_limb_list = refresh_limb_list;
+    }
+
+    public static void setDeveloperServerKey(String s) {
+        ActiveSession.developer_server_key = s;
+    }
+
+    public static String getDeveloperServerKey(){
+        return ActiveSession.developer_server_key;
     }
 }
 
