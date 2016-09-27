@@ -1,5 +1,7 @@
 package com.krux.session;
 
+import android.net.TrafficStats;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,7 +17,7 @@ public class ActiveSession {
     private static boolean updated = false;
     private static Boolean refresh_limb_list = false;
 
-    private static String tags = null;
+    private static ArrayList<String> tags = new ArrayList<String>();
 
     private static String before_created_date = null;
     private static String on_created_date = null;
@@ -24,6 +26,9 @@ public class ActiveSession {
     private static String before_due_date = null;
     private static String on_due_date = null;
     private static String after_due_date = null;
+
+    public static long start_rx = TrafficStats.getTotalRxBytes();
+    public static long start_tx = TrafficStats.getTotalTxBytes();
 
     private static Boolean completed = null;
 
@@ -38,32 +43,28 @@ public class ActiveSession {
     public static String getPassword() { return ActiveSession.password; }
     public static void setPassword(String password) { ActiveSession.password = password; }
 
+    public static void addFilterTag(String tag) {
+        if(!ActiveSession.tags.contains(tag)) {
+            ActiveSession.tags.add(tag);
+            ActiveSession.updated = true;
+        }
+    }
 
-    public static String getFilterTags(){
+    public static boolean filterTagsContainsTag(String tag){
+        return ActiveSession.tags.contains(tag);
+    }
+
+    public static void setFilterTags(ArrayList<String> tags){
+        ActiveSession.tags = tags;
+        ActiveSession.updated = true;
+    }
+
+    public static ArrayList<String> getFilterTags(){
         return ActiveSession.tags;
     }
 
-    public static void setFilterTags(String s) {
-
-        ArrayList<String> tags = new ArrayList<String>();
-        if(s != null) {
-            Scanner sc = new Scanner(s);
-
-            String token;
-            while (sc.hasNext()) {
-                token = sc.next();
-                if (token.charAt(0) == '#' &&
-                        (token.substring(1).matches("^[a-zA-Z0-9]*$") ||
-                                token.substring(1).matches("^[a-zA-Z0-9]*,$")) &&
-                        !tags.contains(token)) {
-                    if (token.contains(","))
-                        tags.add(token.substring(0, token.length() - 1));
-                    else
-                        tags.add(token);
-                }
-            }
-            sc.close();
-        }
+    public static String getFilterTagsAsString() {
+        ArrayList<String> tags = ActiveSession.tags;
 
         String tags_string = null;
 
@@ -76,16 +77,7 @@ public class ActiveSession {
 
                 tags_string += ", " + tags.get(i);
         }
-
-        if((ActiveSession.tags == null && tags_string != null) ||
-                (ActiveSession.tags != null && tags_string == null) ||
-                (ActiveSession.tags != null && tags_string != null &&
-                        !ActiveSession.tags.equals(tags_string))){
-            System.out.println("changing " + ActiveSession.tags + " to " + tags_string);
-            ActiveSession.tags = tags_string;
-            ActiveSession.updated = true;
-
-        }
+        return tags_string;
     }
 
     public static void setFilterUpdated(boolean updated){

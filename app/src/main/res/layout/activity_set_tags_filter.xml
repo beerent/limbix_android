@@ -4,21 +4,17 @@
     android:layout_height="wrap_content"
     tools:context="com.krux.activity.main.SetTagsFilterActivity">
 
-    <Button
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set Tag Filter"
-        android:id="@+id/set_tags_filter_button"
-        android:layout_below="@+id/tags_text_box"
-        android:layout_alignLeft="@+id/tags_text_box"
-        android:layout_alignStart="@+id/tags_text_box"
-        android:layout_alignRight="@+id/tags_text_box"
-        android:layout_alignEnd="@+id/tags_text_box" />
-
-    <EditText
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/tags_text_box"
+        android:id="@+id/add_tag_list_view"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tags_spinner"
+        android:layout_below="@+id/add_tag_list_view" />
 </RelativeLayout>

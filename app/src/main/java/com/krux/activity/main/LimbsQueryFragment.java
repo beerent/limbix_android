@@ -1,5 +1,6 @@
 package com.krux.activity.main;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -94,6 +95,8 @@ public class LimbsQueryFragment extends Fragment implements View.OnClickListener
         private Activity activity;
         //private ProgressDialog dialog = new ProgressDialog(LoginActivity.this);
         private ProgressDialog progDailog;
+        private ArrayList<Limb> limbs;
+
 
         @Override
         protected void onPreExecute() {
@@ -139,7 +142,7 @@ public class LimbsQueryFragment extends Fragment implements View.OnClickListener
             request_json.put("type", "get");
             //adding filters
             if(ActiveSession.getFilterTags() != null)
-                request_json.put("tags", ActiveSession.getFilterTags());
+                request_json.put("tags", ActiveSession.getFilterTagsAsString());
 
             if(ActiveSession.getBeforeCreatedDate() != null)
                 request_json.put("created_before", ActiveSession.getBeforeCreatedDate());
@@ -174,7 +177,7 @@ public class LimbsQueryFragment extends Fragment implements View.OnClickListener
             System.out.println(limbs_string);
             JSONObject limbs_json = jb.getJSONObject(limbs_string);
 
-            final ArrayList<Limb> limbs = getLimbsFromJSON(limbs_json);
+            limbs = getLimbsFromJSON(limbs_json);
 
             list=(ListView)view.findViewById(R.id.list);
 
@@ -309,7 +312,14 @@ public class LimbsQueryFragment extends Fragment implements View.OnClickListener
         }
 
         private void editLimbClick(){
-
+            Intent intent = new Intent(this, EditLimbActivity.class);
+            intent.putExtra("limb_text", this.limb_text);
+            intent.putExtra("limb_created", this.limb_created);
+            intent.putExtra("limb_due", this.limb_due);
+            intent.putExtra("limb_id", this.limb_id);
+            intent.putExtra("limb_position", this.limb_position);
+            startActivity(intent);
+            finish();
         }
 
         private class DetailedLimbClientThread extends AsyncTask<String, Void, Boolean> {

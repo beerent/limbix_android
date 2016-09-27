@@ -39,6 +39,9 @@
         <activity
             android:name="com.krux.activity.main.AddLimbActivity"
             android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.krux.activity.main.EditLimbActivity"
+            android:theme="@android:style/Theme.Dialog" />
     </application>
 
 </manifest>

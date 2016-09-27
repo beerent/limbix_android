@@ -1,15 +1,19 @@
 package com.krux.activity.main;
 
 import android.content.Intent;
+import android.net.TrafficStats;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.brent.helloworld.R;
 import com.krux.session.ActiveSession;
+
+import java.util.ArrayList;
 
 public class LimbsFilterFragment extends Fragment implements View.OnClickListener{
     private static TextView tag_filter_message;
@@ -60,6 +64,10 @@ public class LimbsFilterFragment extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.cancel_created_date_filter_button:
+                long rx = TrafficStats.getTotalRxBytes() - ActiveSession.start_rx;
+                long tx = TrafficStats.getTotalTxBytes() - ActiveSession.start_tx;
+                Toast.makeText(getActivity(),"" + rx + " " + tx,
+                        Toast.LENGTH_SHORT).show();
                 clearCreatedDateFilterClick();
                 break;
 
@@ -82,7 +90,7 @@ public class LimbsFilterFragment extends Fragment implements View.OnClickListene
     }
 
     public static void setStrings(){
-        String tag_string = ActiveSession.getFilterTags();
+        String tag_string = ActiveSession.getFilterTagsAsString();
 
         String on_created_date = ActiveSession.getOnCreatedDate();
         String before_created_date = ActiveSession.getBeforeCreatedDate();
@@ -155,7 +163,7 @@ public class LimbsFilterFragment extends Fragment implements View.OnClickListene
     }
 
     private void clearTagFiltersClick(){
-        ActiveSession.setFilterTags(null);
+        ActiveSession.setFilterTags(new ArrayList<String>());
         LimbsFilterFragment.setStrings();
     }
 
