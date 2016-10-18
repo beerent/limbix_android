@@ -24,6 +24,19 @@ public class JSONBuilder {
         return return_str;
     }
 
+    public String buildUpdateGCMTokenRequest(String token, String username, String password) {
+        String return_str = null;
+        JSONObject request = new JSONObject();
+        JSONObject inner_json = new JSONObject();
+        inner_json.put("type", "update_gcm_token");
+        inner_json.put("token", token);
+        inner_json.put("username", username);
+        inner_json.put("password", password);
+        request.put("request", inner_json);
+        return_str = request.toString();
+        return return_str;
+    }
+
     public String buildRegisterRequest(String first_name,
                                        String last_name,
                                        String username,

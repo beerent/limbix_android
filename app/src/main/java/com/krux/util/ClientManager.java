@@ -55,4 +55,19 @@ public class ClientManager {
         return_json.put("request", request_json);
         return return_json;
     }
+
+    public JSONObject deleteFilter(int filter_id) {
+        String username = ActiveSession.getUsername();
+        String password = ActiveSession.getPassword();
+
+        JSONObject return_json = new JSONObject();
+        JSONObject request_json = new JSONObject();
+        request_json.put("username", username);
+        request_json.put("password", password);
+        request_json.put("type", "delete_filter");
+        request_json.put("filter_id", filter_id);
+
+        return_json.put("request", request_json);
+        return return_json;
+    }
 }

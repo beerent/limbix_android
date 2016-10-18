@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -133,6 +125,55 @@
             android:layout_height="wrap_content"
             android:text="X"
             android:id="@+id/cancel_completed_filter_button" />
+    </LinearLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@+id/completed_filter_linear_layout"
+        android:id="@+id/space_after_completed_filter"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/space_after_completed_filter"
+        android:id="@+id/save_filter_linear_layout">
+
+        <EditText
+            android:layout_weight="2.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="name filter"
+            android:id="@+id/save_filter_text"/>
+
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Save Filter"
+            android:id="@+id/save_filter_button" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/save_filter_linear_layout"
+        android:id="@+id/load_saved_filter_linear_layout">
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Load Saved Filter"
+            android:id="@+id/load_saved_filter" />
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Clear All"
+            android:id="@+id/clear_all_filters" />
     </LinearLayout>
 
 

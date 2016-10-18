@@ -2,7 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.brent.helloworld">
 
+    <permission
+        android:name="com.example.brent.helloworld.PERMISSION.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.example.brent.helloworld.permission.C2D_MESSAGE" />
 
     <application
         android:allowBackup="true"
@@ -10,6 +17,28 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
+
+        <!--             GCM Receiver -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.gnirt69.gcmexample" />
+            </intent-filter>
+        </receiver>
+
+        <!--             GCM Receiver Service -->
+        <service
+            android:name="com.krux.service.GCMPushReceiverService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
         <activity android:name="com.krux.activity.preLogin.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,10 +49,12 @@
         <activity android:name="com.krux.activity.preLogin.RegisterActivity">
             android:label="@string/app_name"
         </activity>
+        LoadFilterActivity
         <activity
             android:name="com.krux.activity.main.HomeActivity"
             android:label="ViewPagerFragmentActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.krux.activity.main.SetTagsFilterActivity"
             android:theme="@android:style/Theme.Dialog" />
@@ -37,10 +68,16 @@
             android:name="com.krux.activity.main.LimbsQueryFragment$DetailedLimbActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity
+            android:name="com.krux.activity.main.LimbsQueryFragment$EditLimbActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
             android:name="com.krux.activity.main.AddLimbActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity
-            android:name="com.krux.activity.main.EditLimbActivity"
+            android:name="com.krux.activity.main.LoadFilterActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.krux.activity.main.SetFilterActivity"
             android:theme="@android:style/Theme.Dialog" />
     </application>
 

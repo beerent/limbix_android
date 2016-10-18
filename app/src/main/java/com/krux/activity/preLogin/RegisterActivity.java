@@ -44,8 +44,6 @@ public class RegisterActivity extends Activity {
     }
 
     public void onClickCancel(View view) {
-        Intent intent = new IntentManager().registerToLoginIntent(RegisterActivity.this);
-        RegisterActivity.this.startActivity(intent);
         finish();
     }
 
@@ -113,15 +111,12 @@ public class RegisterActivity extends Activity {
             JSONBuilder jb = new JSONBuilder();
 
             if (result){
-                //Register Success
-
-                Intent intent = new IntentManager().registerToLoginIntent(RegisterActivity.this);
 
                 if (progDailog.isShowing()) {
                     progDailog.dismiss();
                 }
-
-                RegisterActivity.this.startActivity(intent);
+                Toast.makeText(RegisterActivity.this, (String) response_json.get("success"),
+                        Toast.LENGTH_LONG).show();
                 finish();
             }else{
                 if (progDailog.isShowing()) {

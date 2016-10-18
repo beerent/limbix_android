@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.brent.helloworld.R;
 import com.krux.limb.Limb;
@@ -97,6 +98,10 @@ public class LimbListViewAdapter extends BaseAdapter {
 
 
     private class updateCompleteThread extends AsyncTask<String, Void, Boolean> {
+        private Long present;
+        private int id;
+        private int position;
+
         protected Boolean doInBackground(String... str) {
             boolean checked = str[1].equals("true");
             String check_op = "0";
@@ -106,12 +111,21 @@ public class LimbListViewAdapter extends BaseAdapter {
             ClientManager cm = new ClientManager();
             JSONObject response_json = cm.updateLimb("update_reminder", str[0], "complete", check_op);
             Long op = (Long) response_json.get("op");
+            present = (Long) response_json.get("present");
             if(op == 0){
-                int position = Integer.parseInt(str[2]);
+                id = Integer.parseInt(str[0]);
+                position = Integer.parseInt(str[2]);
                 data.get(position).setCompleted(checked);
             }
 
             return op == 0;
+        }
+
+        protected void onPostExecute(Boolean b) {
+            if(b) {
+                if(present == 0)
+                    removeLimb(position, id);
+            }
         }
     }
 }

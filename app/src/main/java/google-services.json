@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "317557010111",
+    "project_id": "limbix-145001"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317557010111:android:b5937f6ef08804f0",
+        "android_client_info": {
+          "package_name": "com.krux"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-02pBOBjz4k9WrPlg7XiypToTI-xpnNM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

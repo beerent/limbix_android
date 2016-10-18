@@ -42,7 +42,6 @@
         android:layout_alignStart="@+id/password" />
 
     <Button
-        android:onClick="onClickRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register"

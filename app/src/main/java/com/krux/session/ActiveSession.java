@@ -2,6 +2,8 @@ package com.krux.session;
 
 import android.net.TrafficStats;
 
+import com.krux.limb.Filter;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -33,6 +35,8 @@ public class ActiveSession {
     public static long start_tx = TrafficStats.getTotalTxBytes();
 
     private static Boolean completed = null;
+
+    private static ArrayList<Filter> filters;
 
     public static boolean isLoggedIn(){
         return ActiveSession.logged_in;
@@ -70,10 +74,12 @@ public class ActiveSession {
 
         String tags_string = null;
 
+        if(tags == null)
+            return null;
         if(tags.size() == 1)
             tags_string = tags.get(0);
 
-        else if(tags.size() > 1){
+        else if(tags.size() > 1) {
             tags_string = tags.get(0);
             for (int i = 1; i < tags.size(); i++)
 
@@ -157,6 +163,33 @@ public class ActiveSession {
 
     public static String getDeveloperServerKey(){
         return ActiveSession.developer_server_key;
+    }
+
+    public static ArrayList<Filter> getFilters() {
+        return filters;
+    }
+
+    public static void setFilters(ArrayList<Filter> filters) {
+        ActiveSession.filters = filters;
+    }
+
+    public static Integer getFilterIdByName(String filter_name) {
+        for(Filter filter: ActiveSession.filters)
+            if(filter.getName().equals(filter_name))
+                return filter.getId();
+        return null;
+    }
+
+    public static void clearAllFilters(){
+        ActiveSession.tags.clear();
+        ActiveSession.setBeforeCreatedDate(null);
+        ActiveSession.setOnCreatedDate(null);
+        ActiveSession.setAfterCreatedDate(null);
+        ActiveSession.setBeforeDueDate(null);
+        ActiveSession.setOnDueDate(null);
+        ActiveSession.setAfterDueDate(null);
+        ActiveSession.setCompleted(null);
+        //ActiveSession.setDeleted(null);
     }
 }
 
